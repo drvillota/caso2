@@ -16,16 +16,13 @@ public class Main {
 			System.out.println("El número de marcos de página es: " + numMarcos);
 			int numPaginas = leer.nextInt();
 			System.out.println("El número de páginas es: " + numPaginas);
-			int numRef = leer.nextInt();
-			System.out.println("El número de referencias es: " + numRef);
+			int numRefs = leer.nextInt();
+			System.out.println("El número de referencias es: " + numRefs);
 			
-			int [] refId = new int[numRef];
-			String [] refBit = new String[numRef];
-			
-			for(int i=0; i<numRef; i++) {
-				String s[] = br.readLine().split(",");
-				refId[i] = Integer.parseInt(s[0]);
-				refBit[i] = s[1];
+			int [] refId = new int[numRefs];
+
+			for(int i=0; i<numRefs; i++) {
+				refId[i] = Integer.parseInt(br.readLine());
 			}
 			
 		} catch(Exception e) {
