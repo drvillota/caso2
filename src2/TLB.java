@@ -1,6 +1,6 @@
-package src;
+package src2;
 
-public class TLB extends Thread{
+public class TLB {
     
     private int numMarco;      // the physical frame number
     private int numPagina;     // the virtual page number
@@ -13,7 +13,7 @@ public class TLB extends Thread{
         //numRefs = pNumRefs;
     }
 
-    public synchronized void registrarTLB(int pNumMarco, int pNumPagina/*, int pNumRefs*/){
+    public void registrarTLB(int pNumMarco, int pNumPagina/*, int pNumRefs*/){
         numMarco = pNumMarco;
         numPagina = pNumPagina;
         //numRefs = pNumRefs;
