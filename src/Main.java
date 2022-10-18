@@ -5,8 +5,8 @@ public class Main {
     
     // constants
 	private static final int NUMERO_MARCOS = 8;
-	private static final int NUMERO_PAGINAS = 64;
-	private static final int NUMERO_REFERENCIAS = 1024;
+	private static final int NUMERO_PAGINAS = 8;
+	private static final int NUMERO_REFERENCIAS = 32;
 
     public static void main(String [] args) {
 		try {
@@ -23,7 +23,7 @@ public class Main {
 			
 			System.out.println("El número de páginas es: " + NUMERO_PAGINAS);
 			
-			System.out.println("El número de referencias es: " + NUMERO_REFERENCIAS);
+			//System.out.println("El número de referencias es: " + NUMERO_REFERENCIAS);
 			
             MemoryManager mm = new MemoryManager(NUMERO_REFERENCIAS, tamanoTLB, NUMERO_MARCOS, NUMERO_PAGINAS);
             mm.start();

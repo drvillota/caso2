@@ -68,13 +68,14 @@ public class MemoryManager extends Thread{
             br = new BufferedReader(fr);
 
             referencias = new int[numeroDeReferencias];
-            String x;
-            while((x=br.readLine()) != null) {
-                for(int i=0; i<numeroDeReferencias; i++) {
-                    referencias[i] = Integer.parseInt(x);
-                    System.out.println(x);
+            String line;
+            for(int i=0; i<numeroDeReferencias; i++) {
+                while((line = br.readLine()) != null) {
+                    referencias[i] = Integer.parseInt(line);
+                    System.out.println(line);
                 }
             }
+            
             
             br.close();
 
@@ -109,32 +110,32 @@ public class MemoryManager extends Thread{
         try {
 
             for (int i = 0; i < referencias.length; i++) {
-                numeroDePagina = referencias[i];
-
-                System.out.println("Pagina referencia = " + numeroDePagina);
+                numeroDePagina = referencias[i]; /* Página referenciada */
+                System.out.println("Pagina referenciada: " + numeroDePagina);
 
                 //Revisa si la página está en la TLB
-                if((numeroDeMarco = revisarTLB(numeroDePagina)) == -1) { /* No se encuentra en la TLB */
+                if((numeroDeMarco = revisarTLB(numeroDePagina)) == -1) { /* No se encuentra en la TLB y el numero de marco no es valido */
 
-                    System.out.println("Numero de marco en TLB"+numeroDeMarco);
                     // Revisa la tabla de páginas
-                    if (tablaPaginas[numeroDePagina].obtenerNumeroMarco() != -1) {
-                        numeroDeMarco = tablaPaginas[numeroDePagina].obtenerNumeroMarco();
-
-                        System.out.println("Si está en la TP");
-
-                    } else { 	/** Fallo de página **/
+                    if (tablaPaginas[numeroDePagina].obtenerNumeroMarco() == -1) { /** Fallo de página **/
                         fallosPagina++;
                         numeroDeMarco = numeroDePagina; /* Provicional */
                         tablaPaginas[numeroDePagina].actualizarTP(numeroDeMarco);
                         //Algorithm aging
                         System.out.println("FALLO DE PÁGINA");
                     }
+
+                    System.out.println("El numero de marco antes de actualizar la tlb es " + numeroDeMarco);
                     // Actualiza TLB
-                    tablaTLB[nextTLBEntry].registrarTLB(numeroDePagina, numeroDeMarco);
-                    nextTLBEntry++;
-                    
-                    System.out.println("-----" + nextTLBEntry);
+                    //Si TLB está llena, sacar el primero
+                    if(nextTLBEntry == referencias.length-1) {
+                        nextTLBEntry = 0;
+                        tablaTLB[nextTLBEntry].registrarTLB(numeroDePagina, numeroDeMarco);
+                    } else {
+                        //si no, agregar en la cola
+                        nextTLBEntry++;
+                        tablaTLB[nextTLBEntry].registrarTLB(numeroDePagina, numeroDeMarco);
+                    }
                 }
             }    
         } catch (Exception e) {
